@@ -13,10 +13,21 @@
 
 void __aeabi_unwind_cpp_pr0(void){}
 
+void Timer_test() {
+	unsigned int timebuf[10];
+	int i;
+	
+	for(i=0; i<10; i++) {
+		timebuf[i] = read_cntp_tval();
+		printk("timebuf[%d] = %u\n", i, timebuf[i]);
+	}
+}
+
 void set_interrupt(void)
 {
 	// disable  interrupts
-
+	GICD_CTRL = 0x0;
+	GICC_CTRL = 0x0;
 
 	// interrupt setting
 	vh_serial_irq_enable();	
@@ -27,7 +38,8 @@ void set_interrupt(void)
 
 
 	// enable interrupts
-
+	GICD_CTRL = 0x01;
+	GICC_CTRL = 0x01;
 }
 
 void VPOS_kernel_main( void )
@@ -47,13 +59,14 @@ void VPOS_kernel_main( void )
 	printk("%s\n%s\n%s\n", top_line, version, bottom_line);
 	
 	//Timer Test...
+	Timer_test();
 
 	/* initialization for thread */
 	race_var = 0;
 	pthread_create(&p_thread, NULL, VPOS_SHELL, (void *)NULL);
-	pthread_create(&p_thread_0, NULL, race_ex_1, (void *)NULL);
-	pthread_create(&p_thread_1, NULL, race_ex_0, (void *)NULL);
-	pthread_create(&p_thread_2, NULL, race_ex_2, (void *)NULL);
+	//pthread_create(&p_thread_0, NULL, race_ex_1, (void *)NULL);
+	//pthread_create(&p_thread_1, NULL, race_ex_0, (void *)NULL);
+	//pthread_create(&p_thread_2, NULL, race_ex_2, (void *)NULL);
 	VPOS_start();
 
 	/* cannot reach here */

@@ -81,12 +81,19 @@ unsigned int get_1sec()
 
 void vh_timer_init(void)
 {
+	write_cntkctl(0x307);
 	vk_timer_flag = 0;
 }
 
 void vh_timer_irq_enable()
 {
+	int n;
 
+//	GICD_ICACTVIER(n) = 
+//	GICD_ICPENDR(n) = 
+	
+//	GICD_ISENABLER(n) = 
+	
 }
 
 void vh_timer_interrupt_handler(void)
