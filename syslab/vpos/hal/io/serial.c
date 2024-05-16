@@ -58,7 +58,8 @@ void vh_serial_init(void)
     UARTFBRD = fdiv;
 
 	// set UART ctrl regs
-    UARTLCR_H = 0x66;
+    //UARTLCR_H = 0x76;
+	UARTLCR_H = 0x66;
     UARTCR = 0x301;
 	//UARTIMSC = 0xF9EF;
 	//UARTIFLS = 0x04;
